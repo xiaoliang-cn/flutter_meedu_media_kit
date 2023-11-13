@@ -37,6 +37,12 @@ class MeeduVideoPlayer extends StatefulWidget {
     Responsive responsive,
   )? bottomRight;
 
+  final Widget Function(
+    BuildContext context,
+    MeeduPlayerController controller,
+    Responsive responsive,
+  )? loadingWidget;
+
   final CustomIcons Function(
     Responsive responsive,
   )? customIcons;
@@ -67,6 +73,7 @@ class MeeduVideoPlayer extends StatefulWidget {
       required this.controller,
       this.header,
       this.bottomRight,
+      this.loadingWidget,
       this.customIcons,
       this.customControls,
       this.backgroundColor = Colors.black,
@@ -80,6 +87,7 @@ class MeeduVideoPlayer extends StatefulWidget {
 class _MeeduVideoPlayerState extends State<MeeduVideoPlayer> {
   // bool oldUIRefresh = false;
   ValueKey _key = const ValueKey(true);
+
   double videoWidth(Player? controller) {
     int width = (controller != null && controller.state.width != null)
         ? controller.state.width! != 0
@@ -150,6 +158,10 @@ class _MeeduVideoPlayerState extends State<MeeduVideoPlayer> {
 
                 if (widget.bottomRight != null) {
                   _.bottomRight = widget.bottomRight!(context, _, _.responsive);
+                }
+                if (widget.loadingWidget != null) {
+                  _.loadingWidget =
+                      widget.loadingWidget!(context, _, _.responsive);
                 }
                 if (widget.videoOverlay != null) {
                   _.videoOverlay =

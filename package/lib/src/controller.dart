@@ -447,6 +447,8 @@ class MeeduPlayerController {
           // autoStart: ,
           );
     }
+    NativePlayer nplayer = player.platform as NativePlayer;
+    nplayer.setProperty("network-timeout", "20");
     //TODO: subtitles
     // if(){}
     return player;
@@ -560,7 +562,7 @@ class MeeduPlayerController {
 
       /// notify that video was loaded
       dataStatus.status.value = DataStatus.loaded;
-
+      isBuffering.value = true;
       await _initializePlayer(seekTo: seekTo);
       // listen the video player events
       if (!_listenersInitialized) {

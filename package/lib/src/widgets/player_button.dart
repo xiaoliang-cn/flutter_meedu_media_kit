@@ -8,7 +8,7 @@ class PlayerButton extends StatelessWidget {
   final Color backgroundColor, iconColor;
   final bool circle;
   final Widget? customIcon;
-
+  final Icon? icon;
   const PlayerButton({
     Key? key,
     this.size = 40,
@@ -18,28 +18,26 @@ class PlayerButton extends StatelessWidget {
     this.backgroundColor = Colors.white54,
     this.iconColor = Colors.black,
     this.customIcon,
+    this.icon
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      style: TextButton.styleFrom(minimumSize: const Size(20, 20)),
-      //padding: EdgeInsets.zero,
-      //minSize: 20,
+    return IconButton(
+      padding: const EdgeInsets.all(10),
+      constraints: const BoxConstraints(),
       onPressed: () {
         onPressed();
         MeeduPlayerController.of(context).controls = true;
       },
-      child: customIcon ??
-          Container(
+      icon: Container(
             width: size,
             height: size,
-            padding: EdgeInsets.all(size * 0.25),
             decoration: BoxDecoration(
               color: backgroundColor,
               shape: circle ? BoxShape.circle : BoxShape.rectangle,
             ),
-            child: Image.asset(
+            child: customIcon ?? icon ?? Image.asset(
               iconPath!,
               color: iconColor,
               package: 'flutter_meedu_media_kit',

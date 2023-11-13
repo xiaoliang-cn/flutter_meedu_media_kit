@@ -51,8 +51,8 @@ class PrimaryBottomControls extends StatelessWidget {
     );
     // END VIDEO DURATION
     Widget otherControls =
-        Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-      if (_.bottomRight != null) ...[_.bottomRight!, const SizedBox(width: 5)],
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      if (_.bottomRight != null) ...[_.bottomRight!],
       if (_.enabledButtons.pip) PipButton(responsive: responsive),
       if (!UniversalPlatform.isDesktopOrWeb && _.enabledButtons.lockControls)
         LockButton(responsive: responsive),
