@@ -424,7 +424,6 @@ class MeeduPlayerController {
 
     _videoController = _videoController ?? VideoController(player);
     player.setPlaylistMode(PlaylistMode.loop);
-
     //dataSource = await checkIfm3u8AndNoLinks(dataSource);
     if (dataSource.type == DataSourceType.asset) {
       final assetUrl = dataSource.source!.startsWith("asset://")
@@ -551,6 +550,7 @@ class MeeduPlayerController {
       if (_videoPlayerController != null &&
           _videoPlayerController!.state.playing) {
         await pause(notify: false);
+        await _videoPlayerController?.stop();
       }
 
       _videoPlayerController = await _createVideoController(dataSource);
@@ -559,7 +559,7 @@ class MeeduPlayerController {
       customDebugPrint("Duration is ${_videoPlayerController!.state.duration}");
 
       _duration.value = _videoPlayerController!.state.duration;
-
+      _position.value = const Duration(seconds: 0);
       /// notify that video was loaded
       dataStatus.status.value = DataStatus.loaded;
       isBuffering.value = true;
