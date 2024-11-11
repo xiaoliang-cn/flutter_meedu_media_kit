@@ -24,6 +24,7 @@ class LoggingActionDispatcher extends ActionDispatcher {
 
 class MeeduVideoPlayer extends StatefulWidget {
   final MeeduPlayerController controller;
+  final SubtitleViewConfiguration subtitleConfiguration;
 
   final Widget Function(
     BuildContext context,
@@ -77,7 +78,8 @@ class MeeduVideoPlayer extends StatefulWidget {
       this.customIcons,
       this.customControls,
       this.backgroundColor = Colors.black,
-      this.videoOverlay})
+      this.videoOverlay,
+      this.subtitleConfiguration = const SubtitleViewConfiguration()})
       : super(key: key);
 
   @override
@@ -217,6 +219,8 @@ class _MeeduVideoPlayerState extends State<MeeduVideoPlayer> {
                                   ? Video(
                                       controller: _.videoController!,
                                       key: _key,
+                                      subtitleViewConfiguration:
+                                          widget.subtitleConfiguration,
                                       fill: widget.backgroundColor,
                                       controls: NoVideoControls,
                                     )
