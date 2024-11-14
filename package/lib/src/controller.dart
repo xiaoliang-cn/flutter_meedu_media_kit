@@ -44,6 +44,9 @@ class MeeduPlayerController {
 
   StreamSubscription? _playerEventSubs;
 
+  SubtitleViewConfiguration? subtitleViewConfiguration =
+      const SubtitleViewConfiguration();
+
   /// Screen Manager to define the overlays and device orientation when the player enters in fullscreen mode
   final ScreenManager screenManager;
 
@@ -318,6 +321,7 @@ class MeeduPlayerController {
     this.screenManager = const ScreenManager(),
     this.colorTheme = Colors.redAccent,
     Widget? loadingWidget,
+    this.subtitleViewConfiguration,
     this.controlsEnabled = true,
     this.manageWakeLock = true,
     this.manageBrightness = true,
@@ -888,12 +892,14 @@ class MeeduPlayerController {
     }
     setVideoAsAppFullScreen(context,
         applyOverlaysAndOrientations: applyOverlaysAndOrientations,
-        disposePlayer: disposePlayer);
+        disposePlayer: disposePlayer,
+        subtitleViewConfiguration: subtitleViewConfiguration);
   }
 
   Future<void> setVideoAsAppFullScreen(BuildContext context,
       {bool applyOverlaysAndOrientations = true,
-      bool disposePlayer = false}) async {
+      bool disposePlayer = false,
+      SubtitleViewConfiguration? subtitleViewConfiguration}) async {
     _fullscreen.value = true;
 
     final route = PageRouteBuilder(
@@ -915,15 +921,14 @@ class MeeduPlayerController {
   /// [dataSource]
   /// [autoplay]
   /// [looping]
-  Future<void> launchAsFullscreen(
-    BuildContext context, {
-    required DataSource dataSource,
-    bool autoplay = false,
-    bool looping = false,
-    Widget? header,
-    Widget? bottomRight,
-    Duration seekTo = Duration.zero,
-  }) async {
+  Future<void> launchAsFullscreen(BuildContext context,
+      {required DataSource dataSource,
+      bool autoplay = false,
+      bool looping = false,
+      Widget? header,
+      Widget? bottomRight,
+      Duration seekTo = Duration.zero,
+      SubtitleViewConfiguration? subtitleViewConfiguration}) async {
     this.header = header;
     this.bottomRight = bottomRight;
     launchedAsFullScreen = true;
@@ -1005,7 +1010,8 @@ class MeeduPlayerController {
   ///
   /// Parameters:
   ///   - context: A `BuildContext` object used to access the current widget tree context.
-  void toggleFullScreen(BuildContext context) {
+  void toggleFullScreen(BuildContext context,
+      {SubtitleViewConfiguration? subtitleViewConfiguration}) {
     setFullScreen(!fullscreen.value, context);
   }
 
@@ -1165,17 +1171,21 @@ class MeeduPlayerController {
   /// enter to picture in picture mode only Android
   ///
   /// only available since Android 7
-  Future<void> enterPip(BuildContext context) async {
+  Future<void> enterPip(BuildContext context,
+      {SubtitleViewConfiguration? subtitleViewConfiguration}) async {
     if (pipAvailable.value && pipEnabled) {
       if (UniversalPlatform.isAndroid) {
-        await _enterPipAndroid(context);
+        await _enterPipAndroid(context,
+            subtitleViewConfiguration: subtitleViewConfiguration);
       } else if (UniversalPlatform.isDesktop) {
-        await _enterPipDesktop(context);
+        await _enterPipDesktop(context,
+            subtitleViewConfiguration: subtitleViewConfiguration);
       }
     }
   }
 
-  Future<void> _enterPipAndroid(BuildContext context) async {
+  Future<void> _enterPipAndroid(BuildContext context,
+      {SubtitleViewConfiguration? subtitleViewConfiguration}) async {
     controls = false; // hide the controls
     if (!fullscreen.value) {
       // if the player is not in the fullscreen mode
@@ -1185,10 +1195,12 @@ class MeeduPlayerController {
     await _pipManager.enterPip();
   }
 
-  Future<void> _enterPipDesktop(BuildContext context) async {
+  Future<void> _enterPipDesktop(BuildContext context,
+      {SubtitleViewConfiguration? subtitleViewConfiguration}) async {
     if (_videoPlayerController == null) return;
     if (!fullscreen.value) {
-      setVideoAsAppFullScreen(context);
+      setVideoAsAppFullScreen(context,
+          subtitleViewConfiguration: subtitleViewConfiguration);
     }
     double minH = max(MediaQuery.of(context).size.height * 0.15, 200);
     double defaultH = max(MediaQuery.of(context).size.height * 0.30, 400);

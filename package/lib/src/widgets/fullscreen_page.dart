@@ -5,6 +5,7 @@ import 'package:flutter_meedu_media_kit/meedu_player.dart';
 class MeeduPlayerFullscreenPage extends StatefulWidget {
   final MeeduPlayerController controller;
   final bool disposePlayer;
+
   const MeeduPlayerFullscreenPage(
       {Key? key, required this.controller, required this.disposePlayer})
       : super(key: key);
@@ -28,6 +29,8 @@ class _MeeduPlayerFullscreenPageState extends State<MeeduPlayerFullscreenPage> {
       child: Scaffold(
         backgroundColor: Colors.black,
         body: MeeduVideoPlayer(
+          subtitleConfiguration: widget.controller.subtitleViewConfiguration ??
+              const SubtitleViewConfiguration(),
           controller: widget.controller,
         ),
       ),
