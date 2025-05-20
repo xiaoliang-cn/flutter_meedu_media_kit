@@ -582,11 +582,9 @@ class MeeduPlayerController {
     }
   }
 
-  setSubtitleViewConfiguration(BuildContext context,
+  setSubtitleViewConfiguration(
       SubtitleViewConfiguration subtitleViewConfiguration) {
     this.subtitleViewConfiguration = subtitleViewConfiguration;
-    var state = MeeduPlayerFullscreenPageState.of(context);
-    state!.setSubViewConfiguration(subtitleViewConfiguration);
   }
 
   /// play the current video

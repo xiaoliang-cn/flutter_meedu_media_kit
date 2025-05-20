@@ -15,21 +15,19 @@ class MeeduPlayerFullscreenPage extends StatefulWidget {
 }
 
 class MeeduPlayerFullscreenPageState extends State<MeeduPlayerFullscreenPage> {
-  late SubtitleViewConfiguration subtitleViewConfiguration;
-  static MeeduPlayerFullscreenPageState? of(BuildContext context) {
-    return context.findAncestorStateOfType<MeeduPlayerFullscreenPageState>();
-  }
+  // late SubtitleViewConfiguration subtitleViewConfiguration;
+  // static MeeduPlayerFullscreenPageState? of(BuildContext context) {
+  //   return context.findAncestorStateOfType<MeeduPlayerFullscreenPageState>();
+  // }
 
-  setSubViewConfiguration(SubtitleViewConfiguration config) {
-    setState(() {
-      subtitleViewConfiguration = config;
-    });
-  }
+  // setSubViewConfiguration(SubtitleViewConfiguration config) {
+  //   setState(() {
+  //     subtitleViewConfiguration = config;
+  //   });
+  // }
 
   @override
   void initState() {
-    subtitleViewConfiguration = widget.controller.subtitleViewConfiguration ??
-        const SubtitleViewConfiguration();
     super.initState();
   }
 
@@ -47,7 +45,8 @@ class MeeduPlayerFullscreenPageState extends State<MeeduPlayerFullscreenPage> {
       child: Scaffold(
         backgroundColor: Colors.black,
         body: MeeduVideoPlayer(
-          subtitleConfiguration: subtitleViewConfiguration,
+          subtitleConfiguration: widget.controller.subtitleViewConfiguration ??
+              const SubtitleViewConfiguration(),
           controller: widget.controller,
         ),
       ),
