@@ -582,6 +582,15 @@ class MeeduPlayerController {
     }
   }
 
+  setSubtitleViewConfiguration(
+      SubtitleViewConfiguration subtitleViewConfiguration) {
+    this.subtitleViewConfiguration = subtitleViewConfiguration;
+    if (_pipContextToFullscreen != null) {
+      var state = MeeduPlayerFullscreenPageState.of(_pipContextToFullscreen!);
+      state!.setSubViewConfiguration(subtitleViewConfiguration);
+    }
+  }
+
   /// play the current video
   ///
   /// [repeat] if is true the player go to Duration.zero before play

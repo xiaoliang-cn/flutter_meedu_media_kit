@@ -11,10 +11,28 @@ class MeeduPlayerFullscreenPage extends StatefulWidget {
       : super(key: key);
   @override
   State<MeeduPlayerFullscreenPage> createState() =>
-      _MeeduPlayerFullscreenPageState();
+      MeeduPlayerFullscreenPageState();
 }
 
-class _MeeduPlayerFullscreenPageState extends State<MeeduPlayerFullscreenPage> {
+class MeeduPlayerFullscreenPageState extends State<MeeduPlayerFullscreenPage> {
+  late SubtitleViewConfiguration subtitleViewConfiguration;
+  static MeeduPlayerFullscreenPageState? of(BuildContext context) {
+    return context.findAncestorStateOfType<MeeduPlayerFullscreenPageState>();
+  }
+
+  setSubViewConfiguration(SubtitleViewConfiguration config) {
+    setState(() {
+      subtitleViewConfiguration = config;
+    });
+  }
+
+  @override
+  void initState() {
+    subtitleViewConfiguration = widget.controller.subtitleViewConfiguration ??
+        const SubtitleViewConfiguration();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -29,8 +47,7 @@ class _MeeduPlayerFullscreenPageState extends State<MeeduPlayerFullscreenPage> {
       child: Scaffold(
         backgroundColor: Colors.black,
         body: MeeduVideoPlayer(
-          subtitleConfiguration: widget.controller.subtitleViewConfiguration ??
-              const SubtitleViewConfiguration(),
+          subtitleConfiguration: subtitleViewConfiguration,
           controller: widget.controller,
         ),
       ),
